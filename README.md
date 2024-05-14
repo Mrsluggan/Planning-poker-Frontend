@@ -1,7 +1,6 @@
 ![](https://img-new.cgtrader.com/items/3846328/0972fc1a4f/large/emoji-shitpost-3d-model-low-poly-stl-blend.jpg)
 
-#Planning poker (Vite & React)
-
+# Planning poker Frontend (Vite & React)
 
 ### Prerequisites for Running the Project
 
