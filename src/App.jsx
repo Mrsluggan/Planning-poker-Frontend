@@ -1,35 +1,71 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
+
+
+import React, { useState } from 'react';
+import Start from './components/Start';
+import Login from './components/Login';
+import ProjectsPage from './components/ProjectsPage';
+import Register from './components/Register';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showProject, setShowProjects] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [projects, setProjects] = useState([]);
+
+  const handleLogin = () => {
+    setLoggedIn(true);
+  };
+
+  const goToLogin = () => {
+    setShowLogin(true);
+    setShowRegister(false);
+    setShowProjects(false);
+  };
+
+  const goToRegister = () => {
+    setShowRegister(true);
+    setShowLogin(false);
+    setShowProject(false);
+  };
+
+  const goToHome = () => {
+    setShowLogin(false);
+    setShowRegister(false);
+    setShowProject(false);
+  };
+
+  const goToProjectsPage = () => {
+    setShowProjects(true);
+    setShowLogin(false);
+    setShowRegister(false);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      {!loggedIn ? (
+        showLogin ? (
+          <Login handleLogin={handleLogin} goToHome={goToHome} />
+        ) : showRegister ? (
+          <Register handleLogin={handleLogin} goToHome={goToHome} />
+        ) : (
+          <Start goToLogin={goToLogin} goToRegister={goToRegister} />
+        )
+      ) : (
+        showProject ? (
+          <ProjectsPage goToProjectsPage={goToProjectsPage} goToHome={goToHome} />
+        ) : (
+          <div>
+           <h1>Du är inloggad!</h1>
+            <button onClick={goToHome}>Gå till hem</button>
+            <button onClick={goToProjectsPage}>Gå till Project Page</button>
+          </div>
+        )
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
+
