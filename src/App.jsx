@@ -13,10 +13,18 @@ function App() {
   const [showProject, setShowProjects] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [projects, setProjects] = useState([]);
+  const [username, setUsername] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = (user) => { 
     setLoggedIn(true);
+    setUsername(user.username); 
   };
+
+  const handleRegistration = () => {
+    
+  };
+
+
 
   const goToLogin = () => {
     setShowLogin(true);
@@ -27,7 +35,7 @@ function App() {
   const goToRegister = () => {
     setShowRegister(true);
     setShowLogin(false);
-    setShowProject(false);
+    setShowProjects(false);
   };
 
   const goToHome = () => {
@@ -43,12 +51,12 @@ function App() {
   };
 
   return (
-    <div>
+   <div>
       {!loggedIn ? (
         showLogin ? (
           <Login handleLogin={handleLogin} goToHome={goToHome} />
         ) : showRegister ? (
-          <Register handleLogin={handleLogin} goToHome={goToHome} />
+          <Register handleRegistration={handleRegistration} goToHome={goToHome} />
         ) : (
           <Start goToLogin={goToLogin} goToRegister={goToRegister} />
         )
@@ -57,7 +65,8 @@ function App() {
           <ProjectsPage goToProjectsPage={goToProjectsPage} goToHome={goToHome} />
         ) : (
           <div>
-           <h1>Du är inloggad!</h1>
+            <h1>Välkommen {username && username}</h1>
+             
             <button onClick={goToHome}>Gå till hem</button>
             <button onClick={goToProjectsPage}>Gå till Project Page</button>
           </div>
