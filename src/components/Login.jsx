@@ -15,7 +15,7 @@ function LoginForm({ handleLogin }) {
     headers:{
       'Content-Type': 'application/json'
     },
-      body:JSON.stringify({username,password})
+      body:JSON.stringify({username:username,password:password})
     });
     const user = await response.json();
     if (user) {
@@ -25,7 +25,7 @@ function LoginForm({ handleLogin }) {
       alert('Fel användarnamn eller lösenord');
     }
   } catch (error) { 
-    console.error('Error logging in:', error);
+    console.error('Error vid inloggning:', error);
   
 
     

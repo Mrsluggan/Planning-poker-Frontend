@@ -21,7 +21,7 @@ function RegisterForm({ handleRegistration }) {
       alert(message); 
       handleRegistration();
     } catch (error) {
-      console.error('Error registering user:', error);
+      console.error('Error vid registering:', error);
     }
   };
 
