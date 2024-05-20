@@ -95,6 +95,22 @@ function ProjectPage({handleLogout }) {
           <h3>Projekt Detaljer</h3>
           <p>ID: {project.id}</p>
           <p>Namn: {project.projectName}</p>
+          <h4>Issues:</h4>
+          <ul>
+            {project.tasks && project.tasks.length > 0 ? (
+              project.tasks.map((task, index) => <li key={index}>{task.name}</li>)
+            ) : (
+              <li>Inga issues</li>
+            )}
+          </ul>
+          <h4>Användare:</h4>
+          <ul>
+            {project.users && project.users.length > 0 ? (
+              project.users.map((user, index) => <li key={index}>{user.username}</li>)
+            ) : (
+              <li>Inga användare</li>
+            )}
+          </ul>
         </div>
       )}
     </div>
