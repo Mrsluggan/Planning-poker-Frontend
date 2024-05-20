@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 
 function ProjectPage({handleLogout }) {
   const [newProjectName, setNewProjectName] = useState('');
+  const [findProjectId, setFindProjectId] = useState('');
   const [projectId, setProjectId] = useState('');
-  const [projects, setProjects] = useState([]);
+  const [project, setProject] = useState('');
   const [newTaskName, setNewTaskName] = useState('');
-  const [selectedProjectIndex, setSelectedProjectIndex] = useState(null);
 
   const handleNewTaskSubmit = (e) => {
 
@@ -24,8 +24,7 @@ function ProjectPage({handleLogout }) {
           if (response.ok) {
             const data = await response.json();
             setProjectId(data.id)
-            console.log(data.id)
-            fetchProjects();
+            alert(`Skapade projectet: ${data.projectName}`)
           } else {
             console.log("Kunde inte skapa project")
           }
@@ -36,7 +35,7 @@ function ProjectPage({handleLogout }) {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch (`http://localhost:8080/projects/${projectId}`, {
+      const response = await fetch (`http://localhost:8080/projects/${findProjectId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -44,7 +43,7 @@ function ProjectPage({handleLogout }) {
       });
         if(response.ok){
           const data= await response.json();
-          setProjects(data);
+          setProject(data);
         } else {
           console.log("Kunde inte hämta project")
         }
@@ -55,50 +54,49 @@ function ProjectPage({handleLogout }) {
 
   return (
     <div>
-      <h1>Project Page</h1>
-      {/* <button onClick={handleLogout}>Logga ut</button> */}
+      <h1>Project Sida</h1>
+      <button onClick={handleLogout}>Logga ut</button>
 
-      <h2>Create new project</h2>
-      <form onSubmit={ (e) => {
-        e.preventDefault();
-        handleNewProjectSubmit();
-      }}>
+      <h2>Skapa nytt projekt</h2>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleNewProjectSubmit();
+        }}
+      >
         <input
           type="text"
           value={newProjectName}
           onChange={(e) => setNewProjectName(e.target.value)}
-          placeholder="Project name"
+          placeholder="Projektnamn"
         />
-        <button type="submit">Create project</button>
+        <button type="submit">Skapa projekt</button>
+      </form>
+      {projectId && <p>Skapat projekt ID: {projectId}</p>} 
+
+      <h2>Projekt</h2>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          fetchProjects();
+        }}
+      >
+        <input
+          type="text"
+          value={findProjectId}
+          onChange={(e) => setFindProjectId(e.target.value)}
+          placeholder="Projekt ID"
+        />
+        <button type="submit">Hitta projekt</button>
       </form>
 
-      <h2>Projects</h2>
-      {/* <ul>
-        {projects?.map((project, index) => (
-          <li key={index}>
-            <button onClick={() => setSelectedProjectIndex(index)}>{project.name}</button>
-            {selectedProjectIndex === index && (
-              <div>
-                <h3>Tasks</h3>
-                <ul>
-                  {project.tasks.map((task, taskIndex) => (
-                    <li key={taskIndex}>{task}</li>
-                  ))}
-                </ul>
-                <form onSubmit={handleNewTaskSubmit}>
-                  <input
-                    type="text"
-                    value={newTaskName}
-                    onChange={(e) => setNewTaskName(e.target.value)}
-                    placeholder="Task name"
-                  />
-                  <button type="submit">Add task</button>
-                </form>
-              </div>
-            )}
-          </li>
-        ))}
-      </ul> */}
+      {project && (
+        <div>
+          <h3>Projekt Detaljer</h3>
+          <p>ID: {project.id}</p>
+          <p>Namn: {project.projectName}</p>
+        </div>
+      )}
     </div>
   );
 }
