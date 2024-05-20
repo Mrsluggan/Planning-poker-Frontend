@@ -6,12 +6,31 @@ function LoginForm({ handleLogin }) {
 
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Inloggningsuppgifter:', { username, password });
-    handleLogin();
-  };
 
+ const handleSubmit = async (e) =>{
+  e.preventDefult();
+  try{
+    const response = await fetch('http://localhost:8080//login', 
+    {method: 'POST',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+      body:JSON.stringify({username,password})
+    });
+    const user = await response.json();
+    if (user) {
+      handleLogin(user);
+    } else {
+
+      alert('Fel användarnamn eller lösenord');
+    }
+  } catch (error) { 
+    console.error('Error logging in:', error);
+  
+
+    
+  }
+};
   return (
     <form onSubmit={handleSubmit}>
       <div>

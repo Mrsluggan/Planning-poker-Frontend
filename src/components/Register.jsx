@@ -4,18 +4,25 @@ function RegisterForm({ handleRegistration }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleUsernameChange = (e) => setUsername(e.target.value);
+  const handlePasswordChange = (e) => setPassword(e.target.value);
+
+  const handleSubmit = async (e) => { 
     e.preventDefault();
-    console.log('Registreringsuppgifter: ', { username, password });
-    handleRegistration();
-  };
-
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+    try { 
+      const response = await fetch('http://localhost:8080/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      });
+      const message = await response.text();
+      alert(message); 
+      handleRegistration();
+    } catch (error) {
+      console.error('Error registering user:', error);
+    }
   };
 
   return (
