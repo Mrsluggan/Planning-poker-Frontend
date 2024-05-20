@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-function ProjectPage({handleLogout }) {
+function ProjectPage({ handleLogout }) {
   const [newProjectName, setNewProjectName] = useState('');
   const [findProjectId, setFindProjectId] = useState('');
   const [projectId, setProjectId] = useState('');
-  const [project, setProject] = useState('');
+  const [project, setProject] = useState(null);
   const [newTaskName, setNewTaskName] = useState('');
   const [userId, setUserId] = useState('');
 
@@ -16,72 +16,72 @@ function ProjectPage({handleLogout }) {
   }, []);
 
   const handleNewTaskSubmit = (e) => {
-
-    
+    e.preventDefault();
   };
 
   const handleNewProjectSubmit = async () => {
-    try{
-          const response = await fetch(`http://localhost:8080/createProject`,{
-            method:'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({projectName: newProjectName}),
-          });
-          if (response.ok) {
-            const data = await response.json();
-            setProjectId(data.id)
-            alert(`Skapade projectet: ${data.projectName}`)
-            await joinProject(data.id, userId);
-          } else {
-            console.log("Kunde inte skapa project")
-          }
+    try {
+      const response = await fetch(`http://localhost:8080/createProject`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ projectName: newProjectName }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setProjectId(data.id);
+        alert(`Skapade projektet: ${data.projectName}`);
+        await joinProject(data.id, userId);
+        setNewProjectName('');
+      } else {
+        console.log('Kunde inte skapa projekt');
+      }
     } catch (error) {
-      console.error("Fel vid skapning av project")
+      console.error('Fel vid skapning av projekt', error);
     }
   };
 
-  
-
-  const fetchProjects = async () => {
+  const fetchProjects = async (id) => {
     try {
-      const response = await fetch (`http://localhost:8080/projects/${findProjectId}`, {
+      const response = await fetch(`http://localhost:8080/projects/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
-        if(response.ok){
-          const data= await response.json();
-          setProject(data);
-        } else {
-          console.log("Kunde inte hämta project")
-        }
+      if (response.ok) {
+        const data = await response.json();
+        setProject(data);
+        setFindProjectId('');
+      } else {
+        console.log('Kunde inte hämta projekt');
+      }
     } catch (error) {
-      console.error("Fel vid fetch av project")
+      console.error('Fel vid fetch av projekt', error);
     }
-  }
+  };
 
   const joinProject = async (projectId, userId) => {
-      try {
-        const response = await fetch(`http://localhost:8080/joinProject/${projectId}/user/${userId}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-    
-        if (response.ok) {
-          const data = await response.json();
-          alert(`Användare ${userId} gick med i projektet: ${data.projectName}`);
-        } else {
-          console.log('Kunde inte gå med i projekt');
-        }
-      } catch (error) {
-        console.error('Fel vid join av projekt', error);
+    try {
+      const response = await fetch(`http://localhost:8080/joinProject/${projectId}/user/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        alert(`Du gick med i projektet: ${data.projectName}`);
+        await fetchProjects(projectId); 
+      } else {
+        console.log('Kunde inte gå med i projekt');
       }
-    };
+    } catch (error) {
+      console.error('Fel vid join av projekt', error);
+    }
+  };
 
   return (
     <div>
@@ -103,13 +103,13 @@ function ProjectPage({handleLogout }) {
         />
         <button type="submit">Skapa projekt</button>
       </form>
-      {projectId && <p>Skapat projekt ID: {projectId}</p>} 
+      {projectId && <p>Skapat projekt ID: {projectId}</p>}
 
       <h2>Projekt</h2>
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          fetchProjects();
+          fetchProjects(findProjectId);
         }}
       >
         <input
@@ -142,7 +142,7 @@ function ProjectPage({handleLogout }) {
               <li>Inga användare</li>
             )}
           </ul>
-          <button onClick={joinProject}>Gå med i projekt</button>
+          <button onClick={() => joinProject(project.id, userId)}>Gå med i projekt</button>
         </div>
       )}
     </div>
