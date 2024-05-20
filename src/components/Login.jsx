@@ -10,7 +10,7 @@ function LoginForm({ handleLogin }) {
  const handleSubmit = async (e) =>{
   e.preventDefult();
   try{
-    const response = await fetch('http://localhost:3001/login', 
+    const response = await fetch('http://localhost:8080//login', 
     {method: 'POST',
     headers:{
       'Content-Type': 'application/json'
@@ -27,6 +27,8 @@ function LoginForm({ handleLogin }) {
   } catch (error) { 
     console.error('Error logging in:', error);
   
+
+    
   }
 };
   return (
