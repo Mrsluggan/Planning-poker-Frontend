@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function ProjectPage({handleLogout }) {
   const [newProjectName, setNewProjectName] = useState('');
@@ -6,6 +6,14 @@ function ProjectPage({handleLogout }) {
   const [projectId, setProjectId] = useState('');
   const [project, setProject] = useState('');
   const [newTaskName, setNewTaskName] = useState('');
+  const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('userId');
+    if (storedUserId) {
+      setUserId(storedUserId);
+    }
+  }, []);
 
   const handleNewTaskSubmit = (e) => {
 
@@ -25,6 +33,7 @@ function ProjectPage({handleLogout }) {
             const data = await response.json();
             setProjectId(data.id)
             alert(`Skapade projectet: ${data.projectName}`)
+            await joinProject(data.id, userId);
           } else {
             console.log("Kunde inte skapa project")
           }
@@ -32,6 +41,8 @@ function ProjectPage({handleLogout }) {
       console.error("Fel vid skapning av project")
     }
   };
+
+  
 
   const fetchProjects = async () => {
     try {
@@ -51,6 +62,26 @@ function ProjectPage({handleLogout }) {
       console.error("Fel vid fetch av project")
     }
   }
+
+  const joinProject = async (projectId, userId) => {
+      try {
+        const response = await fetch(`http://localhost:8080/joinProject/${projectId}/user/${userId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+    
+        if (response.ok) {
+          const data = await response.json();
+          alert(`Användare ${userId} gick med i projektet: ${data.projectName}`);
+        } else {
+          console.log('Kunde inte gå med i projekt');
+        }
+      } catch (error) {
+        console.error('Fel vid join av projekt', error);
+      }
+    };
 
   return (
     <div>
@@ -111,6 +142,7 @@ function ProjectPage({handleLogout }) {
               <li>Inga användare</li>
             )}
           </ul>
+          <button onClick={joinProject}>Gå med i projekt</button>
         </div>
       )}
     </div>
