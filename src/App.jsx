@@ -1,6 +1,3 @@
-
-
-
 import React, { useState } from 'react';
 import Start from './components/Start';
 import Login from './components/Login';
@@ -12,19 +9,32 @@ function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [showProject, setShowProjects] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  const [projects, setProjects] = useState([]);
+  // const [projects, setProjects] = useState([]);
   const [username, setUsername] = useState('');
+  const [userId, setUserId] = useState('');
 
   const handleLogin = (user) => { 
     setLoggedIn(true);
     setUsername(user.username); 
+    setUserId(user.id)
+    localStorage.setItem('username', user.username)
+    localStorage.setItem('userId', user.id)
   };
+
+  const handleLogout = () => {
+    alert("Du loggas ut");
+    setLoggedIn(false);
+    setUsername('');
+    setUserId('');
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('username')
+    localStorage.removeItem('userId')
+    goToHome();
+  }
 
   const handleRegistration = () => {
-    
+    goToHome();
   };
-
-
 
   const goToLogin = () => {
     setShowLogin(true);
@@ -41,7 +51,7 @@ function App() {
   const goToHome = () => {
     setShowLogin(false);
     setShowRegister(false);
-    setShowProject(false);
+    setShowProjects(false);
   };
 
   const goToProjectsPage = () => {
@@ -49,6 +59,8 @@ function App() {
     setShowLogin(false);
     setShowRegister(false);
   };
+
+
 
   return (
    <div>
@@ -61,16 +73,7 @@ function App() {
           <Start goToLogin={goToLogin} goToRegister={goToRegister} />
         )
       ) : (
-        showProject ? (
-          <ProjectsPage goToProjectsPage={goToProjectsPage} goToHome={goToHome} />
-        ) : (
-          <div>
-            <h1>Välkommen {username && username}</h1>
-             
-            <button onClick={goToHome}>Gå till hem</button>
-            <button onClick={goToProjectsPage}>Gå till Project Page</button>
-          </div>
-        )
+          <ProjectsPage goToProjectsPage={goToProjectsPage} handleLogout={handleLogout} />
       )}
     </div>
   );

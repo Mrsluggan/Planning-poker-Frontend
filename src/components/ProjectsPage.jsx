@@ -1,35 +1,68 @@
 import React, { useState } from 'react';
 
-function ProjectPage({ projects, goBack }) {
+function ProjectPage({handleLogout }) {
   const [newProjectName, setNewProjectName] = useState('');
+  const [projectId, setProjectId] = useState('');
+  const [projects, setProjects] = useState([]);
   const [newTaskName, setNewTaskName] = useState('');
   const [selectedProjectIndex, setSelectedProjectIndex] = useState(null);
 
-  const handleNewProjectSubmit = (e) => {
-    e.preventDefault();
-    if (Array.isArray(projects) && newProjectName.trim() !== '') {
-      const updatedProjects = [...projects, { name: newProjectName, tasks: [] }];
-      setNewProjectName('');
-      setProjects(updatedProjects);
-    }
-  };
   const handleNewTaskSubmit = (e) => {
-    e.preventDefault();
-    if (newTaskName.trim() !== '' && selectedProjectIndex !== null) {
-      const updatedProjects = [...projects];
-      updatedProjects[selectedProjectIndex].tasks.push(newTaskName);
-      setProjects(updatedProjects);
-      setNewTaskName('');
+
+    
+  };
+
+  const handleNewProjectSubmit = async () => {
+    try{
+          const response = await fetch(`http://localhost:8080/createProject`,{
+            method:'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({projectName: newProjectName}),
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setProjectId(data.id)
+            console.log(data.id)
+            fetchProjects();
+          } else {
+            console.log("Kunde inte skapa project")
+          }
+    } catch (error) {
+      console.error("Fel vid skapning av project")
     }
   };
+
+  const fetchProjects = async () => {
+    try {
+      const response = await fetch (`http://localhost:8080/projects/${projectId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+        if(response.ok){
+          const data= await response.json();
+          setProjects(data);
+        } else {
+          console.log("Kunde inte hämta project")
+        }
+    } catch (error) {
+      console.error("Fel vid fetch av project")
+    }
+  }
 
   return (
     <div>
       <h1>Project Page</h1>
-      <button onClick={goBack}>Go back to home</button>
+      {/* <button onClick={handleLogout}>Logga ut</button> */}
 
       <h2>Create new project</h2>
-      <form onSubmit={handleNewProjectSubmit}>
+      <form onSubmit={ (e) => {
+        e.preventDefault();
+        handleNewProjectSubmit();
+      }}>
         <input
           type="text"
           value={newProjectName}
@@ -40,7 +73,7 @@ function ProjectPage({ projects, goBack }) {
       </form>
 
       <h2>Projects</h2>
-      <ul>
+      {/* <ul>
         {projects?.map((project, index) => (
           <li key={index}>
             <button onClick={() => setSelectedProjectIndex(index)}>{project.name}</button>
@@ -65,7 +98,7 @@ function ProjectPage({ projects, goBack }) {
             )}
           </li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 }
