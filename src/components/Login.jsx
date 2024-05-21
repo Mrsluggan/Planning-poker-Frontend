@@ -12,26 +12,30 @@ function LoginForm({ handleLogin }) {
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('http://localhost:8080/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-      });
-      const user = await response.json();
-      if (user) {
-        handleLogin(user);
-      } else {
-        alert('Fel användarnamn eller lösenord');
-      }
-    } catch (error) {
-      console.error('Error logging in:', error);
     }
   };
+
+ const handleSubmit = async (e) =>{
+  e.preventDefault();
+  try{
+    const response = await fetch('http://localhost:8080/login', 
+    {method: 'POST',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+      body:JSON.stringify({username:username,password:password})
+    });
+    const user = await response.json();
+    if (user) {
+      handleLogin(user);
+    } else {
+
+      alert('Fel användarnamn eller lösenord');
+    }
+  } catch (error) { 
+    console.error('Error vid inloggning:', error);
+  
+
 
   return (
     <div className="background">
