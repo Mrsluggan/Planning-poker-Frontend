@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "./App.css";
 import Start from './components/Start';
 import Login from './components/Login';
 import ProjectsPage from './components/ProjectsPage';
@@ -80,4 +81,3 @@ function App() {
 }
 
 export default App;
-

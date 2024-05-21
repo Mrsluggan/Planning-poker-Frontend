@@ -1,4 +1,8 @@
+
+
+
 import React, { useState } from 'react';
+
 
 function RegisterForm({ handleRegistration }) {
   const [username, setUsername] = useState('');
@@ -26,18 +30,25 @@ function RegisterForm({ handleRegistration }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Användarnamn:</label>
-        <input type="text" value={username} onChange={handleUsernameChange} />
+    <div className="background">
+      <div className="register-container">
+        <form onSubmit={handleSubmit} className="register-form">
+          <div>
+            <label>Användarnamn:</label>
+            <input type="text" value={username} onChange={handleUsernameChange} />
+          </div>
+          <div>
+            <label>Lösenord:</label>
+            <input type="password" value={password} onChange={handlePasswordChange} />
+          </div>
+          <button type="submit">Registrera</button>
+        </form>
       </div>
-      <div>
-        <label>Lösenord:</label>
-        <input type="password" value={password} onChange={handlePasswordChange} />
-      </div>
-      <button type="submit">Registrera</button>
-    </form>
+    </div>
   );
 }
 
+
 export default RegisterForm;
+
+
