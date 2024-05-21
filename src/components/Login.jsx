@@ -1,11 +1,19 @@
+
+
+
 import React, { useState } from 'react';
+
 
 function LoginForm({ handleLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [emoji, setEmoji] =useState('😴');
 
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
+
+    }
+  };
 
  const handleSubmit = async (e) =>{
   e.preventDefault();
@@ -28,22 +36,28 @@ function LoginForm({ handleLogin }) {
     console.error('Error vid inloggning:', error);
   
 
-    
-  }
-};
+
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Användarnamn:</label>
-        <input type="text" value={username} onChange={handleUsernameChange} />
+    <div className="background">
+      <div className="login-container">
+        <div className='emoji'>{emoji}</div>
+        <form onSubmit={handleSubmit} className="login-form">
+          <div>
+            <label>Användarnamn:</label>
+            <input type="text" value={username} onChange={handleUsernameChange} 
+            onFocus={() => setEmoji('😀👍')}/>
+          </div>
+          <div>
+            <label>Lösenord:</label>
+            <input type="password" value={password} onChange={handlePasswordChange} onFocus={() => setEmoji('🫣')}/>
+          </div>
+          <button type="submit">Logga in</button>
+        </form>
       </div>
-      <div>
-        <label>Lösenord:</label>
-        <input type="password" value={password} onChange={handlePasswordChange} />
-      </div>
-      <button type="submit">Logga in</button>
-    </form>
+    </div>
   );
 }
 
+
 export default LoginForm;
+
