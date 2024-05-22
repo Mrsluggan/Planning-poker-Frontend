@@ -10,6 +10,7 @@ function ProjectPage({ handleLogout }) {
   const [newTaskName, setNewTaskName] = useState('');
   const [userId, setUserId] = useState('');
   const [isMember, setIsMember] = useState(false);
+  const [timeEstimations, setTimeEstimations] = useState('');
 
   useEffect(() => {
     const storedUserId = localStorage.getItem('userId');
@@ -134,6 +135,38 @@ function ProjectPage({ handleLogout }) {
     }
   };
 
+  const handleTimeEstimationChange = (taskId, value) => {
+    setTimeEstimations((prev) => ({
+      ...prev,
+      [taskId]: value,
+    }));
+  };
+
+  const handleTimeEstimationSubmit = async (taskId) => {
+    const timeEstimation = timeEstimations[taskId];
+    try {
+      const response = await fetch(`http://localhost:8080/timeEstimation/${taskId}/${userId}/${timeEstimation}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        alert('Tidsuppskattning sparad');
+        await fetchProjects(project.id); 
+        setTimeEstimations((prev) => ({
+          ...prev,
+          [taskId]: '',
+        }));
+      } else {
+        console.log('Kunde inte spara tidsuppskattning');
+      }
+    } catch (error) {
+      console.error('Fel vid sparande av tidsuppskattning', error);
+    }
+  };
+
   return (
     <div className="project-page">
       <h1 className="page-title">Project Sida</h1>
@@ -209,8 +242,26 @@ function ProjectPage({ handleLogout }) {
 
           <h4>Issues:</h4>
           <ul>
-            {project.tasks && project.tasks.length > 0 ? (
-              project.tasks.map((task, index) => <li key={index}>{task.name}</li>)
+          {project.tasks && project.tasks.length > 0 ? (
+              project.tasks.map((task, index) => (
+                <li key={index}>
+                  {task.name}
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleTimeEstimationSubmit(task.id);
+                    }}
+                  >
+                    <input
+                      type="text"
+                      value={timeEstimations[task.id] || ''}
+                      onChange={(e) => handleTimeEstimationChange(task.id, e.target.value)}
+                      placeholder="Tid uppskattning"
+                    />
+                    <button type="submit">Uppskatta tid</button>
+                  </form>
+                </li>
+              ))
             ) : (
               <li>Inga issues</li>
             )}
