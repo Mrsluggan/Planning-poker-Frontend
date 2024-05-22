@@ -7,6 +7,7 @@ function ProjectPage({ handleLogout }) {
   const [project, setProject] = useState(null);
   const [newTaskName, setNewTaskName] = useState('');
   const [userId, setUserId] = useState('');
+  const [isMember, setIsMember] = useState(false);
 
   useEffect(() => {
     const storedUserId = localStorage.getItem('userId');
@@ -77,6 +78,8 @@ function ProjectPage({ handleLogout }) {
         const data = await response.json();
         setProject(data);
         setFindProjectId('');
+        const userIsMember = data.users.some(user => user.id === userId);
+        setIsMember(userIsMember);
       } else {
         console.log('Kunde inte hämta projekt');
       }
@@ -97,12 +100,35 @@ function ProjectPage({ handleLogout }) {
       if (response.ok) {
         const data = await response.json();
         alert(`Du gick med i projektet: ${data.projectName}`);
+        setIsMember(true);
         await fetchProjects(projectId); 
       } else {
         console.log('Kunde inte gå med i projekt');
       }
     } catch (error) {
       console.error('Fel vid join av projekt', error);
+    }
+  };
+
+  const leaveProject = async (projectId, userId) => {
+    try {
+      const response = await fetch(`http://localhost:8080/leaveProject/${projectId}/user/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        alert(`Du lämnade projektet: ${data.projectName}`);
+        setIsMember(false);
+        await fetchProjects(projectId); 
+      } else {
+        console.log('Kunde inte lämna projekt');
+      }
+    } catch (error) {
+      console.error('Fel vid lämning av projekt', error);
     }
   };
 
@@ -146,21 +172,26 @@ function ProjectPage({ handleLogout }) {
 
       {project && (
         <div>
+          {isMember ? (
+            <button onClick={() => leaveProject(project.id, userId)}>Gå ur projekt</button>
+          ) : (
+            <button onClick={() => joinProject(project.id, userId)}>Gå med i projekt</button>
+          )}
           <h3>Projekt Detaljer</h3>
           <p>ID: {project.id}</p>
           <p>Namn: {project.projectName}</p>
 
-          <form onSubmit={(e) => {
-            handleNewTaskSubmit(e);
-          }}>
-            <input
-              type='text'
-              value={newTaskName}
-              onChange={(e) => setNewTaskName(e.target.value)}
-              placeholder='Tasknamn'
+          {isMember && (
+            <form onSubmit={handleNewTaskSubmit}>
+              <input
+                type='text'
+                value={newTaskName}
+                onChange={(e) => setNewTaskName(e.target.value)}
+                placeholder='Tasknamn'
               />
               <button type="submit">Skapa Task</button>
-          </form>
+            </form>
+          )}
 
           <h4>Issues:</h4>
           <ul>
@@ -178,7 +209,6 @@ function ProjectPage({ handleLogout }) {
               <li>Inga användare</li>
             )}
           </ul>
-          <button onClick={() => joinProject(project.id, userId)}>Gå med i projekt</button>
         </div>
       )}
     </div>
