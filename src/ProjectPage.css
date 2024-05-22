@@ -1,0 +1,109 @@
+.project-page {
+    padding: 20px;
+    background-color: #fafafb;
+    color: rgb(14, 13, 13);
+    width: 168vh;
+    height: 100%;
+}
+
+.page-title {
+    text-align: center;
+    color: #1453b8;
+}
+
+.logout-button {
+    display: block;
+    margin: 0 auto;
+    background-color: #1453b8;
+    color: #f2f2f2;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.forms-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.form-section {
+    width: 45%;
+}
+
+.create-project-title,
+.search-project-title {
+    text-align: center;
+}
+
+.create-project-input,
+.search-project-input,
+.task-name-input {
+    display: block;
+    width: 50%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-project-button,
+.create-task-button,
+.join-project-button {
+    width: 20%;
+    background-color: #1453b8;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.project-id {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.project-details {
+    margin-top: 20px;
+}
+
+.project-details-title,
+.issues-title,
+.users-title {
+    margin-top: 20px;
+}
+
+.issues-list,
+.users-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.extra-content {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #20232a;
+    text-align: center;
+}
+
+.create-project-button {
+    outline: none;
+    height: 40px;
+    text-align: center;
+    width: 150px;
+    border-radius: 40px;
+    background: #1453b8;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    transition: all 0.50s ease;
+}
+
+.create-project-button:hover {
+    color: white;
+    background-color: #1453b8;
+}
+
+.onclik {
+    width: 40px;
+}
