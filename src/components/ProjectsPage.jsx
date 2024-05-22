@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import '../ProjectPage.css';  // Import the CSS file
+
 
 function ProjectPage({ handleLogout }) {
   const [newProjectName, setNewProjectName] = useState('');
@@ -133,42 +135,54 @@ function ProjectPage({ handleLogout }) {
   };
 
   return (
-    <div>
-      <h1>Project Sida</h1>
-      <button onClick={handleLogout}>Logga ut</button>
+    <div className="project-page">
+      <h1 className="page-title">Project Sida</h1>
+      <button className="logout-button" onClick={handleLogout}>Logga ut</button>
 
-      <h2>Skapa nytt projekt</h2>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleNewProjectSubmit();
-        }}
-      >
-        <input
-          type="text"
-          value={newProjectName}
-          onChange={(e) => setNewProjectName(e.target.value)}
-          placeholder="Projektnamn"
-        />
-        <button type="submit">Skapa projekt</button>
-      </form>
-      {projectId && <p>Skapat projekt ID: {projectId}</p>}
+      <div className="forms-container">
+        <div className="form-section">
+          <h2 className="create-project-title">Skapa nytt projekt</h2>
+         <form
+  onSubmit={(e) => {
+    e.preventDefault();
+    handleNewProjectSubmit();
+    $('#create-project-button').addClass('onclic', 250, validate);
+  }}
+  className="form-inline"
+>
+      <input
+       type="text"
+        value={newProjectName}
+       onChange={(e) => setNewProjectName(e.target.value)}
+        placeholder="Projektnamn"
+        className="create-project-input"
+      />
+        <button id="create-project-button" type="submit" className="create-project-button">Skapa projekt</button>
+       </form>
+          {projectId && <p className="project-id">Skapat projekt ID: {projectId}</p>}
+        </div>
 
-      <h2>Projekt</h2>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          fetchProjects(findProjectId);
-        }}
-      >
-        <input
-          type="text"
-          value={findProjectId}
-          onChange={(e) => setFindProjectId(e.target.value)}
-          placeholder="Projekt ID"
-        />
-        <button type="submit">Hitta projekt</button>
-      </form>
+        <div className="form-section">
+          <h2 className="search-project-title">Projekt</h2>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              fetchProjects(findProjectId);
+            }}
+            className="form-inline"
+          >
+            <input
+              type="text"
+              value={findProjectId}
+              onChange={(e) => setFindProjectId(e.target.value)}
+              placeholder="Projekt ID"
+              className="search-project-input"
+            />
+            <button type="submit" className="search-project-button">Hitta projekt</button>
+          </form>
+        </div>
+      </div>
+
 
       {project && (
         <div>
