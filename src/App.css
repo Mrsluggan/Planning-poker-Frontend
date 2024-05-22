@@ -96,9 +96,10 @@ body {
 .register-form input,
 .login-form input {
     padding: 10px;
-    border: 1px solid #f6f6f6;
+    border: 1px solid #000000;
     border-radius: 5px;
-    color: rgb(255, 249, 249);
+    color: black;
+    background-color: white;
 }
 
 .register-form button,

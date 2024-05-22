@@ -17,9 +17,12 @@ function ProjectPage({ handleLogout }) {
 
   const handleNewTaskSubmit = async (e) => {
     e.preventDefault();
-    console.log(projectId);
+    if (!project) {
+      alert('Inget projekt valt');
+      return;
+    }
     try {
-      const response = await fetch (`http://localhost:8080/newTask/${projectId}`, {
+      const response = await fetch(`http://localhost:8080/newTask/${project.id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -29,7 +32,8 @@ function ProjectPage({ handleLogout }) {
       if (response.ok) {
         const data = await response.json();
         alert(`Ny task lades till: ${data.name}`);
-        await fetchProjects(projectId); 
+        await fetchProjects(project.id); 
+        setNewTaskName('');
       } else {
         console.log('Kunde inte lägga till task');
       }
@@ -147,7 +151,7 @@ function ProjectPage({ handleLogout }) {
           <p>Namn: {project.projectName}</p>
 
           <form onSubmit={(e) => {
-            handleNewTaskSubmit();
+            handleNewTaskSubmit(e);
           }}>
             <input
               type='text'
