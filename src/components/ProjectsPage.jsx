@@ -241,7 +241,6 @@ function ProjectPage({ handleLogout }) {
           )}
 
           <h4>Issues:</h4>
-          <ul>
           {project.tasks && project.tasks.length > 0 ? (
               project.tasks.map((task, index) => (
                 <li key={index}>
@@ -252,12 +251,15 @@ function ProjectPage({ handleLogout }) {
                       handleTimeEstimationSubmit(task.id);
                     }}
                   >
-                    <input
-                      type="text"
+                    <select
                       value={timeEstimations[task.id] || ''}
                       onChange={(e) => handleTimeEstimationChange(task.id, e.target.value)}
-                      placeholder="Tid uppskattning"
-                    />
+                    >
+                      <option value="" disabled>Välj tid</option>
+                      {[...Array(16).keys()].map((i) => (
+                        <option key={i + 1} value={i + 1}>{i + 1}</option>
+                      ))}
+                    </select>
                     <button type="submit">Uppskatta tid</button>
                   </form>
                 </li>
@@ -265,7 +267,6 @@ function ProjectPage({ handleLogout }) {
             ) : (
               <li>Inga issues</li>
             )}
-          </ul>
           <h4>Användare:</h4>
           <ul>
             {project.users && project.users.length > 0 ? (
