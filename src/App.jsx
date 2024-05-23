@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./App.css";
 import Start from './components/Start';
 import Login from './components/Login';
@@ -14,12 +14,13 @@ function App() {
   const [username, setUsername] = useState('');
   const [userId, setUserId] = useState('');
 
-  const handleLogin = (user) => { 
+  const handleLogin = (user) => {
     setLoggedIn(true);
-    setUsername(user.username); 
+    setUsername(user.username);
     setUserId(user.id)
     localStorage.setItem('username', user.username)
     localStorage.setItem('userId', user.id)
+    localStorage.setItem('isLoggedIn', true);
   };
 
   const handleLogout = () => {
@@ -61,10 +62,15 @@ function App() {
     setShowRegister(false);
   };
 
-
+  useEffect(() => {
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      setLoggedIn(true);
+      goToProjectsPage();
+    }
+  }, []);
 
   return (
-   <div>
+    <div>
       {!loggedIn ? (
         showLogin ? (
           <Login handleLogin={handleLogin} goToHome={goToHome} />
@@ -74,7 +80,7 @@ function App() {
           <Start goToLogin={goToLogin} goToRegister={goToRegister} />
         )
       ) : (
-          <ProjectsPage goToProjectsPage={goToProjectsPage} handleLogout={handleLogout} />
+        <ProjectsPage goToProjectsPage={goToProjectsPage} handleLogout={handleLogout} />
       )}
     </div>
   );
