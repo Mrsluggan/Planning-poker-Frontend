@@ -159,8 +159,8 @@ function ProjectPage({ handleLogout }) {
           ...prev,
           [taskId]: '',
         }));
-      } else {
-        console.log('Kunde inte spara tidsuppskattning');
+      } else if (response.status === 409) {
+        alert('Du har redan sparat tidsuppskattning');
       }
     } catch (error) {
       console.error('Fel vid sparande av tidsuppskattning', error);
