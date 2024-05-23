@@ -11,6 +11,7 @@ function ProjectPage({ handleLogout }) {
   const [userId, setUserId] = useState('');
   const [isMember, setIsMember] = useState(false);
   const [timeEstimations, setTimeEstimations] = useState('');
+  const username = localStorage.getItem('username') || 'Gäst';
 
   useEffect(() => {
     const storedUserId = localStorage.getItem('userId');
@@ -170,6 +171,7 @@ function ProjectPage({ handleLogout }) {
   return (
     <div className="project-page">
       <h1 className="page-title">Project Sida</h1>
+      <h2 style={{ textAlign: 'center' }}>Välkommen tillbaka {username}</h2>
       <button className="logout-button" onClick={handleLogout}>Logga ut</button>
 
       <div className="forms-container">
