@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import '../ProjectPage.css';  // Import the CSS file
+import '../ProjectPage.css'; 
 
 
-function ProjectPage({ handleLogout }) {
+function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
   const [newProjectName, setNewProjectName] = useState('');
   const [findProjectId, setFindProjectId] = useState('');
   const [projectId, setProjectId] = useState('');
@@ -168,6 +168,19 @@ function ProjectPage({ handleLogout }) {
     }
   };
 
+  const handleTimer = async (taskId) => {
+    const response = await fetch(`http://localhost:8080/manageTaskTimer/${taskId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });  
+    if (response.ok) {
+      console.log(taskId, 'timerfunktion');
+      await fetchProjects(project.id);
+    };
+  }
+
   return (
     <div className="project-page">
       <h1 className="page-title">Project Sida</h1>
@@ -192,7 +205,7 @@ function ProjectPage({ handleLogout }) {
         placeholder="Projektnamn"
         className="create-project-input"
       />
-        <button id="create-project-button" type="submit" className="create-project-button">Skapa projekt</button>
+        <button id="create-project-button" type="submit" className="create-project-button">Skapa projekt</button><br />
        </form>
           {projectId && <p className="project-id">Skapat projekt ID: {projectId}</p>}
         </div>
@@ -222,9 +235,9 @@ function ProjectPage({ handleLogout }) {
       {project && (
         <div>
           {isMember ? (
-            <button onClick={() => leaveProject(project.id, userId)}>Gå ur projekt</button>
+            <button className="button" onClick={() => leaveProject(project.id, userId)}>Gå ur projekt</button>
           ) : (
-            <button onClick={() => joinProject(project.id, userId)}>Gå med i projekt</button>
+            <button className="button" onClick={() => joinProject(project.id, userId)}>Gå med i projekt</button>
           )}
           <h3>Projekt Detaljer</h3>
           <p>ID: {project.id}</p>
@@ -263,7 +276,15 @@ function ProjectPage({ handleLogout }) {
                       ))}
                     </select>
                     <button type="submit">Uppskatta tid</button>
+                    {!task.timerRunning ? (
+                      <button className="startTimerButton" onClick={() => handleTimer(task.id)}>Starta timer</button>
+                    ) : (
+                      <button className="stopTimerButton" onClick={() => handleTimer(task.id)}>Stoppa timer</button>
+                    )}
+                    
+                    
                   </form>
+                  
                 </li>
               ))
             ) : (
@@ -277,6 +298,7 @@ function ProjectPage({ handleLogout }) {
               <li>Inga användare</li>
             )}
           </ul>
+          <button onClick={() => goToTimeEstimationsPage(project.id)}>Visa tidsuppskattningar</button>
         </div>
       )}
     </div>

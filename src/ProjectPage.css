@@ -21,6 +21,22 @@
     margin-bottom: 20px;
 }
 
+.startTimerButton {
+
+    background-color: #14b82f;
+    color: #f2f2f2;
+    border: none;
+    cursor: pointer;
+}
+
+.stopTimerButton {
+ 
+    background-color: #cc0e0e;
+    color: #f2f2f2;
+    border: none;
+    cursor: pointer;
+}
+
 .forms-container {
     display: flex;
     justify-content: space-between;
@@ -88,15 +104,11 @@
 }
 
 .create-project-button {
-    outline: none;
-    height: 40px;
-    text-align: center;
-    width: 150px;
-    border-radius: 40px;
-    background: #1453b8;
-    color: rgb(255, 255, 255);
+    display: block;
+    background-color: #1453b8;
+    color: #f2f2f2;
+    border: none;
     cursor: pointer;
-    transition: all 0.50s ease;
 }
 
 .create-project-button:hover {
