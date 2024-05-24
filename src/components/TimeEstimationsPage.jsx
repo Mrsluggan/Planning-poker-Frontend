@@ -17,16 +17,12 @@ function TimeEstimationsPage({ projectId, handleBack }) {
       });
       if (response.ok) {
         const data = await response.json();
-        if (data) {
-          setProject(data);
-        } else {
-          console.error('Empty response received from the server');
-        }
+        setProject(data);
       } else {
-        console.error('Server returned an error:', response.status);
+        console.log('Kunde inte hämta projekt');
       }
     } catch (error) {
-      console.error('Error fetching project:', error);
+      console.error('Fel vid fetch av projekt', error);
     }
   };
 
