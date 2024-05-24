@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import '../ProjectPage.css';  // Import the CSS file
+import '../ProjectPage.css'; 
 
 
-function ProjectPage({ handleLogout }) {
+function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
   const [newProjectName, setNewProjectName] = useState('');
   const [findProjectId, setFindProjectId] = useState('');
   const [projectId, setProjectId] = useState('');
@@ -298,6 +298,7 @@ function ProjectPage({ handleLogout }) {
               <li>Inga användare</li>
             )}
           </ul>
+          <button onClick={() => goToTimeEstimationsPage(project.id)}>Visa tidsuppskattningar</button>
         </div>
       )}
     </div>

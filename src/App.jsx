@@ -4,22 +4,23 @@ import Start from './components/Start';
 import Login from './components/Login';
 import ProjectsPage from './components/ProjectsPage';
 import Register from './components/Register';
+import TimeEstimationsPage from './components/TimeEstimationsPage'; 
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showProject, setShowProjects] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  // const [projects, setProjects] = useState([]);
   const [username, setUsername] = useState('');
   const [userId, setUserId] = useState('');
+  const [projectId, setProjectId] = useState(null); 
 
   const handleLogin = (user) => {
     setLoggedIn(true);
     setUsername(user.username);
-    setUserId(user.id)
-    localStorage.setItem('username', user.username)
-    localStorage.setItem('userId', user.id)
+    setUserId(user.id);
+    localStorage.setItem('username', user.username);
+    localStorage.setItem('userId', user.id);
     localStorage.setItem('isLoggedIn', true);
   };
 
@@ -29,10 +30,10 @@ function App() {
     setUsername('');
     setUserId('');
     localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('username')
-    localStorage.removeItem('userId')
+    localStorage.removeItem('username');
+    localStorage.removeItem('userId');
     goToHome();
-  }
+  };
 
   const handleRegistration = () => {
     goToHome();
@@ -54,12 +55,17 @@ function App() {
     setShowLogin(false);
     setShowRegister(false);
     setShowProjects(false);
+    setProjectId(null); 
   };
 
   const goToProjectsPage = () => {
     setShowProjects(true);
     setShowLogin(false);
     setShowRegister(false);
+  };
+
+  const goToTimeEstimationsPage = (projectId) => {
+    setProjectId(projectId); 
   };
 
   useEffect(() => {
@@ -80,7 +86,13 @@ function App() {
           <Start goToLogin={goToLogin} goToRegister={goToRegister} />
         )
       ) : (
-        <ProjectsPage goToProjectsPage={goToProjectsPage} handleLogout={handleLogout} />
+        projectId ? (
+          
+          <TimeEstimationsPage projectId={projectId} handleBack={goToProjectsPage} />
+        ) : (
+          
+          <ProjectsPage goToProjectsPage={goToProjectsPage} goToTimeEstimationsPage={goToTimeEstimationsPage} handleLogout={handleLogout} />
+        )
       )}
     </div>
   );
