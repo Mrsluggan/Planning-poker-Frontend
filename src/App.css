@@ -1,11 +1,9 @@
 html,
 body {
     align-items: center;
-    margin: 100;
-    padding: 100;
-    height: 100%;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
+    
 }
 
 .background {
@@ -119,12 +117,7 @@ body {
 }
 
 .mainContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    width: 172vh;
+
     background-image: url('https://www.tomorrow.city/wp-content/uploads/2023/10/skyscraper_1.jpg');
     background-size: cover;
     background-position: center;
