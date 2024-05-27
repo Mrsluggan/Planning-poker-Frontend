@@ -1,30 +1,45 @@
-
-
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import "./App.css";
 import Start from './components/Start';
 import Login from './components/Login';
 import ProjectsPage from './components/ProjectsPage';
 import Register from './components/Register';
+import TimeEstimationsPage from './components/TimeEstimationsPage'; 
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showProject, setShowProjects] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  const [projects, setProjects] = useState([]);
   const [username, setUsername] = useState('');
+  const [userId, setUserId] = useState('');
+  const [projectId, setProjectId] = useState(localStorage.getItem('projectId') || null); 
 
-  const handleLogin = (user) => { 
+
+  const handleLogin = (user) => {
     setLoggedIn(true);
-    setUsername(user.username); 
+    setUsername(user.username);
+    setUserId(user.id);
+    localStorage.setItem('username', user.username);
+    localStorage.setItem('userId', user.id);
+    localStorage.setItem('isLoggedIn', true);
+  };
+
+  const handleLogout = () => {
+    alert("Du loggas ut");
+    setLoggedIn(false);
+    setUsername('');
+    setUserId('');
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('username');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('projectId');
+    goToHome();
   };
 
   const handleRegistration = () => {
-    
+    goToHome();
   };
-
-
 
   const goToLogin = () => {
     setShowLogin(true);
@@ -41,17 +56,33 @@ function App() {
   const goToHome = () => {
     setShowLogin(false);
     setShowRegister(false);
-    setShowProject(false);
+    setShowProjects(false);
+    setProjectId(null); 
+    localStorage.removeItem('projectId');
   };
 
   const goToProjectsPage = () => {
     setShowProjects(true);
     setShowLogin(false);
     setShowRegister(false);
+    setProjectId(null);
   };
 
+  const goToTimeEstimationsPage = (projectId) => {
+    setProjectId(projectId); 
+    localStorage.setItem('projectId', projectId);
+    setShowProjects(false);
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      setLoggedIn(true);
+      goToProjectsPage();
+    }
+  }, []);
+
   return (
-   <div>
+    <div>
       {!loggedIn ? (
         showLogin ? (
           <Login handleLogin={handleLogin} goToHome={goToHome} />
@@ -61,20 +92,16 @@ function App() {
           <Start goToLogin={goToLogin} goToRegister={goToRegister} />
         )
       ) : (
-        showProject ? (
-          <ProjectsPage goToProjectsPage={goToProjectsPage} goToHome={goToHome} />
+        projectId ? (
+          <TimeEstimationsPage projectId={projectId} goToProjectsPage={goToProjectsPage} />
         ) : (
-          <div>
-            <h1>Välkommen {username && username}</h1>
-             
-            <button onClick={goToHome}>Gå till hem</button>
-            <button onClick={goToProjectsPage}>Gå till Project Page</button>
-          </div>
+          <ProjectsPage goToProjectsPage={goToProjectsPage} goToTimeEstimationsPage={goToTimeEstimationsPage} handleLogout={handleLogout} />
         )
       )}
+
+    
     </div>
   );
 }
 
 export default App;
-

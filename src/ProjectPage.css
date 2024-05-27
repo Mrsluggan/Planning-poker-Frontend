@@ -1,0 +1,91 @@
+body {
+    background-image: url('https://www.tomorrow.city/wp-content/uploads/2023/10/skyscraper_1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.project-page {
+    background-color: #fafafb;
+    color: rgb(14, 13, 13);
+
+}
+
+.logout-button {
+    display: block;
+    margin: 0 auto;
+    background-color: #1453b8;
+    color: #f2f2f2;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+
+
+
+
+
+.create-project-input,
+.search-project-input,
+.task-name-input {
+    display: block;
+    width: 50%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.create-project-button {
+    display: block;
+    background-color: #1453b8;
+    color: #f2f2f2;
+    border: none;
+    cursor: pointer;
+}
+.join-project-button,
+.create-project-button:hover {
+    color: white;
+    background-color: #1453b8;
+}
+
+.onclick {
+    width: 40px;
+    border-color: white;
+    border-width: 3px;
+    animation: rotating 2s 0.25s linear infinite;
+}
+
+.onclick::after {
+    content: "";
+}
+
+.validate:after {
+    font-family: 'FontAwesome';
+    content: "\f00c";
+}
+
+.time-estimations-page {
+    padding: 20px;
+    background-color: #fafafb;
+    color: rgb(14, 13, 13);
+    width: 242%;
+    height: 100%;
+    border-radius: 30px;
+}
+
+.page-title {
+    text-align: center;
+    color: #1453b8;
+}
+
+@keyframes rotating {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
