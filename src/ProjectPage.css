@@ -15,11 +15,6 @@ body {
     height: 100%;
 }
 
-.page-title {
-    text-align: center;
-    color: #1453b8;
-}
-
 .logout-button {
     display: block;
     margin: 0 auto;
@@ -72,10 +67,28 @@ body {
 }
 
 .search-project-button,
-.create-task-button,
-.join-project-button {
+.create-task-button
+ {
     width: 20%;
     background-color: #1453b8;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.join-project-button {
+    width: 20%;
+    background-color: #14b82f;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.leave-project-button {
+    width: 20%;
+    background-color: #cc0e0e;
     color: #ffffff;
     border: none;
     border-radius: 4px;
@@ -123,29 +136,20 @@ body {
     background-color: #1453b8;
 }
 
-.onclik {
+.onclick {
     width: 40px;
     border-color: white;
     border-width: 3px;
     animation: rotating 2s 0.25s linear infinite;
 }
 
-.onclik::after {
+.onclick::after {
     content: "";
 }
 
 .validate:after {
     font-family: 'FontAwesome';
     content: "\f00c";
-}
-
-@keyframes rotating {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
 }
 
 .time-estimations-page {
@@ -160,4 +164,13 @@ body {
 .page-title {
     text-align: center;
     color: #1453b8;
+}
+
+@keyframes rotating {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
