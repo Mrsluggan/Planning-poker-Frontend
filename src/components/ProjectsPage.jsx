@@ -40,7 +40,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
       return;
     }
     try {
-      const response = await fetch(`http://localhost:8080/newTask/${project.id}`, {
+      const response = await fetch(`https://squid-app-oddmp.ondigitalocean.app/newTask/${project.id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
 
   const handleNewProjectSubmit = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/createProject`, {
+      const response = await fetch(`https://squid-app-oddmp.ondigitalocean.app/createProject`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
 
   const fetchProjects = async (id) => {
     try {
-      const response = await fetch(`http://localhost:8080/projects/${id}`, {
+      const response = await fetch(`https://squid-app-oddmp.ondigitalocean.app/projects/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
   };
   const fetchProjectsById = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:8080/projects/${userId}/projects`, {
+      const response = await fetch(`https://squid-app-oddmp.ondigitalocean.app/projects/${userId}/projects`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -126,7 +126,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
 
   const joinProject = async (projectId, userId) => {
     try {
-      const response = await fetch(`http://localhost:8080/joinProject/${projectId}/user/${userId}`, {
+      const response = await fetch(`https://squid-app-oddmp.ondigitalocean.app/joinProject/${projectId}/user/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -148,7 +148,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
 
   const leaveProject = async (projectId, userId) => {
     try {
-      const response = await fetch(`http://localhost:8080/leaveProject/${projectId}/user/${userId}`, {
+      const response = await fetch(`https://squid-app-oddmp.ondigitalocean.app/leaveProject/${projectId}/user/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -178,7 +178,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
   const handleTimeEstimationSubmit = async (taskId) => {
     const timeEstimation = timeEstimations[taskId];
     try {
-      const response = await fetch(`http://localhost:8080/timeEstimation/${taskId}/${userId}/${timeEstimation}`, {
+      const response = await fetch(`https://squid-app-oddmp.ondigitalocean.app/timeEstimation/${taskId}/${userId}/${timeEstimation}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -201,7 +201,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
   };
 
   const handleTimer = async (taskId) => {
-    const response = await fetch(`http://localhost:8080/manageTaskTimer/${taskId}`, {
+    const response = await fetch(`https://squid-app-oddmp.ondigitalocean.app/manageTaskTimer/${taskId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -215,7 +215,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
 
   const removeTask = async (taskId) => {
     try {
-      const response = await fetch(`http://localhost:8080/removeTask/${taskId}`, {
+      const response = await fetch(`https://squid-app-oddmp.ondigitalocean.app/removeTask/${taskId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

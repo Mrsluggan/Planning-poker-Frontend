@@ -9,7 +9,7 @@ function TimeEstimationsPage({ projectId, goToProjectsPage }) {
 
   const fetchProject = async (id) => {
     try {
-      const response = await fetch(`http://localhost:8080/projects/${id}`, {
+      const response = await fetch(`https://squid-app-oddmp.ondigitalocean.app/projects/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ function TimeEstimationsPage({ projectId, goToProjectsPage }) {
   const fetchUsernames = async (projectData) => {
     try {
       const userIds = projectData.users.map(user => user.id);
-      const promises = userIds.map(userId => fetch(`http://localhost:8080/user/${userId}`));
+      const promises = userIds.map(userId => fetch(`https://squid-app-oddmp.ondigitalocean.app/user/${userId}`));
       const responses = await Promise.all(promises);
       const userData = await Promise.all(responses.map(response => response.json()));
       const usernameMap = {};
