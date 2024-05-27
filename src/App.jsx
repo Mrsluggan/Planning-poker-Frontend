@@ -15,6 +15,7 @@ function App() {
   const [userId, setUserId] = useState('');
   const [projectId, setProjectId] = useState(localStorage.getItem('projectId') || null); 
 
+
   const handleLogin = (user) => {
     setLoggedIn(true);
     setUsername(user.username);

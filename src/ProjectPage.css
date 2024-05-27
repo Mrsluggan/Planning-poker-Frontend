@@ -77,6 +77,16 @@ body {
     cursor: pointer;
 }
 
+.button
+ {
+    margin-left: 5px;
+    background-color: #1453b8;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
 .join-project-button {
     width: 20%;
     background-color: #14b82f;
@@ -96,7 +106,7 @@ body {
 }
 
 .project-id {
-    text-align: center;
+
     margin-top: 10px;
 }
 
