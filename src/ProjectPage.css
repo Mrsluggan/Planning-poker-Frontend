@@ -1,8 +1,17 @@
+body {
+    background-image: url('https://www.tomorrow.city/wp-content/uploads/2023/10/skyscraper_1.jpg');
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
 .project-page {
     padding: 20px;
     background-color: #fafafb;
     color: rgb(14, 13, 13);
-    width: 168vh;
+    width: 169vh;
     height: 100%;
 }
 
@@ -22,7 +31,6 @@
 }
 
 .startTimerButton {
-
     background-color: #14b82f;
     color: #f2f2f2;
     border: none;
@@ -30,7 +38,6 @@
 }
 
 .stopTimerButton {
- 
     background-color: #cc0e0e;
     color: #f2f2f2;
     border: none;
@@ -49,7 +56,7 @@
 
 .create-project-title,
 .search-project-title {
-    text-align: center;
+    text-align: 10px;
 }
 
 .create-project-input,
@@ -118,4 +125,25 @@
 
 .onclik {
     width: 40px;
+    border-color: white;
+    border-width: 3px;
+    animation: rotating 2s 0.25s linear infinite;
+}
+
+.onclik::after {
+    content: "";
+}
+
+.validate:after {
+    font-family: 'FontAwesome';
+    content: "\f00c";
+}
+
+@keyframes rotating {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }

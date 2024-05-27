@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 function TimeEstimationsPage({ projectId, handleBack }) {
   const [project, setProject] = useState(null);
   const [usernames, setUsernames] = useState({});
@@ -61,7 +60,7 @@ function TimeEstimationsPage({ projectId, handleBack }) {
 
   return (
     <div className="time-estimations-page">
-      <button onClick={handleBack}>Tillbaka</button>
+            <button onClick={handleBack}>Tillbaka</button>
       <h1>Tidsuppskattningar för Projekt</h1>
       {project ? (
         <div>

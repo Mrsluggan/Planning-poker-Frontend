@@ -87,15 +87,17 @@ function App() {
         )
       ) : (
         projectId ? (
-          
-          <TimeEstimationsPage projectId={projectId} handleBack={goToProjectsPage} />
+          <TimeEstimationsPage projectId={projectId} goBack={goToProjectsPage} />
         ) : (
-          
           <ProjectsPage goToProjectsPage={goToProjectsPage} goToTimeEstimationsPage={goToTimeEstimationsPage} handleLogout={handleLogout} />
         )
       )}
+
+    
     </div>
   );
 }
 
 export default App;
+
+
