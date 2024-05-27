@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../ProjectPage.css'; 
 
-
 function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
   const [newProjectName, setNewProjectName] = useState('');
   const [findProjectId, setFindProjectId] = useState(localStorage.getItem('projectId') || '');
@@ -22,6 +21,13 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
       fetchProjects(findProjectId);
     }
   }, []);
+
+  useEffect(() => {
+    if (project) {
+      const userIsMember = project.users.some(user => user.id === userId);
+      setIsMember(userIsMember);
+    }
+  }, [project, userId]);
   
   const handleNewTaskSubmit = async (e) => {
     e.preventDefault();
@@ -39,14 +45,14 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
       });
       if (response.ok) {
         const data = await response.json();
-        alert(`Ny task lades till: ${data.name}`);
+        alert(`Ny uppgift lades till: ${data.name}`);
         await fetchProjects(project.id); 
         setNewTaskName('');
       } else {
-        console.log('Kunde inte lägga till task');
+        console.log('Kunde inte lägga till uppgift');
       }
     } catch (error) {
-      console.error('Fel vid submit av task', error);
+      console.error('Fel vid submit av uppgift', error);
     }
   };
 
@@ -187,7 +193,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
   return (
     <div className="project-page">
       <h1 className="page-title">Project Sida</h1>
-      <h2 style={{ textAlign: 'center' }}>Välkommen tillbaka {username}</h2>
+      <h2 style={{ textAlign: 'center' }}>Välkommen tillbaka {username}!</h2>
       <button className="logout-button" onClick={handleLogout}>Logga ut</button>
 
       <div className="forms-container">
@@ -252,14 +258,15 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
                 type='text'
                 value={newTaskName}
                 onChange={(e) => setNewTaskName(e.target.value)}
-                placeholder='Tasknamn'
+                placeholder='Namn på uppgift'
               />
-              <button type="submit">Skapa Task</button>
+              <button className="button" type="submit">Skapa uppgift</button>
             </form>
           )}
 
-          <h4>Issues:</h4>
-          {isMember && project.tasks && project.tasks.length > 0 ? (
+          <h4>Uppgifter:</h4>
+          {isMember ? (
+            project.tasks && project.tasks.length > 0 ? (
               project.tasks.map((task, index) => (
                 <li key={index}>
                   {task.name}
@@ -277,22 +284,30 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
                       {[...Array(16).keys()].map((i) => (
                         <option key={i + 1} value={i + 1}>{i + 1}</option>
                       ))}
-                     
                     </select>
-                     <button type="submit">Uppskatta tid</button>
-                   
+                    <button type="submit">Uppskatta tid</button>
                   </form>
-                   {!task.timerRunning ? (
-                      <button className="startTimerButton" onClick={() => handleTimer(task.id)}>Starta timer</button>
-                    ) : (
-                      <button className="stopTimerButton" onClick={() => handleTimer(task.id)}>Stoppa timer</button>
-                    )}
+                  {!task.timerRunning ? (
+                    <button className="startTimerButton" onClick={() => handleTimer(task.id)}>Starta timer</button>
+                  ) : (
+                    <button className="stopTimerButton" onClick={() => handleTimer(task.id)}>Stoppa timer</button>
+                  )}
                 </li>
               ))
             ) : (
-              <li>Inga issues</li>
-            )}
-         
+              <li>Inga uppgifter</li>
+            )
+          ) : (
+            project.tasks && project.tasks.length > 0 ? (
+              project.tasks.map((task, index) => (
+                <li key={index}>
+                  {task.name}
+                </li>
+              ))
+            ) : (
+              <li>Inga uppgifter</li>
+            )
+          )}
          
           <h4>Användare:</h4>
           <ul>

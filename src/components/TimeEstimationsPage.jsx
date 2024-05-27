@@ -66,7 +66,7 @@ function TimeEstimationsPage({ projectId, goToProjectsPage }) {
 
   return (
     <div className="time-estimations-page">
-            <button onClick={handleBack}>Tillbaka</button>
+            <button className="button" onClick={handleBack}>Tillbaka</button>
       <h1>Tidsuppskattningar för Projekt</h1>
       {project ? (
         <div>
