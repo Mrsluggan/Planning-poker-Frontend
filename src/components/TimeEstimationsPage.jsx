@@ -32,7 +32,6 @@ function TimeEstimationsPage({ projectId, goToProjectsPage }) {
     goToProjectsPage();
   };
 
-
   const fetchUsernames = async (projectData) => {
     try {
       const userIds = projectData.users.map(user => user.id);
@@ -63,47 +62,37 @@ function TimeEstimationsPage({ projectId, goToProjectsPage }) {
       return `${hours} timmar ${remainingMinutes} minuter`;
     }
   };
-
   return (
     <div className="time-estimations-page">
-            <button className="button" onClick={handleBack}>Tillbaka</button>
-      <h1>Tidsuppskattningar för Projekt</h1>
+      <button className="button" onClick={handleBack}>Tillbaka</button>
+      <h1>Tidsuppskattningar</h1>
       {project ? (
         <div>
           <h2>{project.projectName}</h2>
-          <h3>Tasks:</h3>
-          <ul>
+          <ul style={{ paddingLeft: '0', listStyleType: 'none' }}>
             {project.tasks && project.tasks.length > 0 ? (
               project.tasks.map((task, index) => (
-                <li key={index}>
-                  <p>Task: {task.name}</p>
-                  <p>Tidsuppskattningar:</p>
-                  <ul>
-                    {task.userTimeEstimations && Object.entries(task.userTimeEstimations).length > 0 ? (
-                      Object.entries(task.userTimeEstimations).map(([userId, time], idx) => (
-                        <li key={idx}>{usernames[userId]}: {time} Timmar</li>
-                      ))
-                    ) : (
-                      <li>Inga tidsuppskattningar</li>
-                    )}
-                  </ul>
-                </li>
+                <div key={index}>
+                  <li>
+                    <h4>Uppgift:</h4>
+                    <p>{task.name}</p>
+                    <p>Total tid: {formatTime(task.totalTime)}</p>
+                    <h4 style={{ margin: '0.5rem 0', paddingLeft: '0' }}>Tidsuppskattningar:</h4>
+                    <ul style={{ paddingLeft: '0', listStyleType: 'none', marginLeft: '0rem' }}>
+                      {task.userTimeEstimations && Object.entries(task.userTimeEstimations).length > 0 ? (
+                        Object.entries(task.userTimeEstimations).map(([userId, time], idx) => (
+                          <p>{usernames[userId]}: {time} Timmar</p>
+                        ))
+                      ) : (
+                        <li>Inga tidsuppskattningar</li>
+                      )}
+                    </ul>
+                  </li>
+                  {index < project.tasks.length - 1 && <hr />}
+                </div>
               ))
             ) : (
-              <li>Inga tasks</li>
-            )}
-          </ul>
-          <h3>Totala tider för Tasks:</h3>
-          <ul>
-            {project.tasks && project.tasks.length > 0 ? (
-              project.tasks.map((task, index) => (
-                <li key={index}>
-                  <p>Task: {task.name}</p>
-                  <p>Total tid: {formatTime(task.totalTime)}</p>
-                </li>
-              ))
-            ) : (
-              <li>Inga tasks</li>
+              <li>Inga uppgifter</li>
             )}
           </ul>
         </div>
