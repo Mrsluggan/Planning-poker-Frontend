@@ -87,7 +87,8 @@ function App() {
         )
       ) : (
         projectId ? (
-          <TimeEstimationsPage projectId={projectId} goBack={goToProjectsPage} />
+          <TimeEstimationsPage projectId={projectId} handleBack={goToProjectsPage} />
+
         ) : (
           <ProjectsPage goToProjectsPage={goToProjectsPage} goToTimeEstimationsPage={goToTimeEstimationsPage} handleLogout={handleLogout} />
         )
