@@ -71,12 +71,12 @@ function TimeEstimationsPage({ projectId, goToProjectsPage }) {
       {project ? (
         <div>
           <h2>{project.projectName}</h2>
-          <h3>Tasks:</h3>
+          <h3>Uppgifter:</h3>
           <ul>
             {project.tasks && project.tasks.length > 0 ? (
               project.tasks.map((task, index) => (
                 <li key={index}>
-                  <p>Task: {task.name}</p>
+                  <p>Uppgift: {task.name}</p>
                   <p>Tidsuppskattningar:</p>
                   <ul>
                     {task.userTimeEstimations && Object.entries(task.userTimeEstimations).length > 0 ? (
@@ -93,12 +93,12 @@ function TimeEstimationsPage({ projectId, goToProjectsPage }) {
               <li>Inga tasks</li>
             )}
           </ul>
-          <h3>Totala tider för Tasks:</h3>
+          <h3>Totala tider för Uppgifter:</h3>
           <ul>
             {project.tasks && project.tasks.length > 0 ? (
               project.tasks.map((task, index) => (
                 <li key={index}>
-                  <p>Task: {task.name}</p>
+                  <p>Uppgift: {task.name}</p>
                   <p>Total tid: {formatTime(task.totalTime)}</p>
                 </li>
               ))
