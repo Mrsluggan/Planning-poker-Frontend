@@ -214,7 +214,12 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
   }
 
   return (
-    <>
+     <>
+    <div className="top-left-box">
+    <h3>Användare: {username}</h3>
+    <button className="logout-button" onClick={handleLogout}>Logga ut</button>
+  </div>
+   
       <div>
         {project
           ? <div><div style={{ backgroundColor: "white", padding: "10px", color: "black", width: "100%", height: "100%" }}>
@@ -223,7 +228,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
               <>
                 <div style={{ color: "black" }}>
                   <h1>{project.projectName}</h1>
-                  <p>Id för gå med i projekt: {project.id}</p>
+                  <p>Projekt ID: {project.id}</p>
                   <div style={{ display: "flex", gap: "10px" }}>
                     {isMember ? (
                       <button className="leave-project-button" onClick={() => leaveProject(project.id, userId)}>Gå ur projekt</button>
@@ -245,7 +250,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
                           placeholder="Namn på uppgift"
                           style={{ padding: "0.5rem", fontSize: "1rem", borderRadius: "4px", border: "1px solid #ccc" }}
                         />
-                        <button className="button" type="submit" style={{ padding: "0.5rem 1rem", fontSize: "1rem", borderRadius: "4px", background: "#007BFF", color: "white", border: "none" }}>
+                        <button className="button" type="submit" style={{ padding: "0.5rem 1rem", fontSize: "1rem", borderRadius: "4px", background: "#1453b8", color: "white", border: "none" }}>
                           Skapa uppgift
                         </button>
                       </form>
@@ -275,7 +280,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
                                     <option key={i + 1} value={i + 1}>{i + 1}</option>
                                   ))}
                                 </select>
-                                <button type="submit" style={{ padding: "0.5rem 1rem", fontSize: "1rem", borderRadius: "4px", background: "#28a745", color: "white", border: "none" }}>
+                                <button type="submit" style={{ padding: "0.5rem 1rem", fontSize: "1rem", borderRadius: "4px", background: "#1453b8", color: "white", border: "none" }}>
                                   Uppskatta tid
                                 </button>
                               </form>
@@ -286,7 +291,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
                                   padding: "0.5rem 1rem",
                                   fontSize: "1rem",
                                   borderRadius: "4px",
-                                  background: task.timerRunning ? "#dc3545" : "#007BFF",
+                                  background: task.timerRunning ? "#ff0000" : "#008000",
                                   color: "white",
                                   border: "none",
                                   marginTop: "0.5rem"
@@ -331,28 +336,24 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
             )}
           </div> </div>
           : <div> <header>
-            <h1 className="page-title">Project Sida</h1>
-            <h2 style={{ textAlign: 'center' }}>Välkommen tillbaka {username}!</h2>
-            <button className="logout-button" onClick={handleLogout}>Logga ut</button>
-
+         
           </header>
             <div className='project-page' style={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr", // Två kolumner
-              gridTemplateRows: "auto auto",  // Två rader
+              gridTemplateColumns: "1fr 1fr", 
+              gridTemplateRows: "auto auto",  
               gap: "20px",
               padding: "20px"
             }}>
 
-
-
               <div className="form-section">
-                <h2 className="create-project-title">Skapa nytt projekt</h2>
+                
+                <h2>Skapa projekt</h2>
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
                     handleNewProjectSubmit();
-                    $('#create-project-button').addClass('onclic', 250, validate);
+                    $('#create-project-button').addClass('onclick', 250, validate);
                   }}
                   className="form-inline"
                 >
@@ -384,7 +385,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
                     placeholder="Projekt ID"
                     className="search-project-input"
                   />
-                  <button type="submit" className="search-project-button">Hitta projekt</button>
+                  <button type="submit" className="find-project-button">Hitta projekt</button>
                 </form>
               </div>
 
@@ -399,7 +400,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
                       marginLeft: '10px',
                       fontSize: '12px',
                       height: '30px',
-                      
+                      backgroundColor: 'green',
                     }} onClick={() => fetchProjects(project.id)}>Öppna</button>
                   </div>
                 ))}
