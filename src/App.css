@@ -6,6 +6,17 @@ body {
     
 }
 
+.top-left-box {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
 .background {
     display: flex;
     justify-content: center;
@@ -128,7 +139,7 @@ body {
 }
 
 h1 {
-    color: #0056b3;
+    color: #1900fe;
 }
 
 p {

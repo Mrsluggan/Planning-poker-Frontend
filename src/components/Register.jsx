@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import Popup from './popup.jsx';
 import './Popup.css';
@@ -9,7 +7,6 @@ function RegisterForm({ handleRegistration }) {
   const [password, setPassword] = useState('');
   const [popupMessage, setPopupMessage] = useState('');
   const [showPopup, setShowPopup] = useState(false);
-
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
@@ -39,22 +36,18 @@ function RegisterForm({ handleRegistration }) {
   };
 
   return (
-    <div className="background">
-      <div className="register-container">
-        <form onSubmit={handleSubmit} className="register-form">
-          <div>
-            <label>Användarnamn:</label>
-            <input type="text" value={username} onChange={handleUsernameChange} />
-          </div>
-          <div>
-            <label>Lösenord:</label>
-            <input type="password" value={password} onChange={handlePasswordChange} />
-          </div>
-          <button type="submit">Registrera</button>
-        </form>
+    <div>
+      <form onSubmit={handleSubmit} className="register-form">
+        <div>
+          <input type="text" placeholder='Användarnamn' value={username} onChange={handleUsernameChange} />
+        </div>
+        <div>
+          <input type="password" placeholder='Lösenord' value={password} onChange={handlePasswordChange} />
+        </div>
+        <button type="submit">Registrera</button>
+      </form>
         {showPopup && <Popup message={popupMessage} onClose={() => setShowPopup(false)} />}
-      </div>
-    </div>
+    </div> 
   );
 }
 

@@ -8,7 +8,6 @@ function LoginForm({ handleLogin }) {
   const [emoji, setEmoji] = useState('😴');
   const [popupMessage, setPopupMessage] = useState('');
   const [showPopup, setShowPopup] = useState(false);
-
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
@@ -37,32 +36,23 @@ function LoginForm({ handleLogin }) {
   }
 
   return (
-    <div className="background">
-      <div className="login-container">
-        <div className='emoji'>{emoji}</div>
-        <form onSubmit={handleSubmit} className="login-form">
-          <div>
-            <label>Användarnamn:</label>
-            <input
-              type="text"
-              value={username}
-              onChange={handleUsernameChange}
-              onFocus={() => setEmoji('😀')}
-            />
-          </div>
-          <div>
-            <label>Lösenord:</label>
-            <input
-              type="password"
-              value={password}
-              onChange={handlePasswordChange}
-              onFocus={() => setEmoji('🫣')}
-            />
-          </div>
-          <button type="submit">Logga in</button>
-        </form>
+    <div>
+      <form onSubmit={handleSubmit} className="login-form">
+        <input
+          type="text"
+          placeholder='Användarnamn'
+          value={username}
+          onChange={handleUsernameChange}
+        />
+        <input
+          type="password"
+          placeholder='Lösenord'
+          value={password}
+          onChange={handlePasswordChange}
+        />
+        <button type="submit">Logga in</button>
+      </form>
         {showPopup && <Popup message={popupMessage} onClose={() => setShowPopup(false)} />}
-      </div>
     </div>
   );
 }
