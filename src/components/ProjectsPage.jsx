@@ -4,8 +4,8 @@ import '../ProjectPage.css';
 
 function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
   const [newProjectName, setNewProjectName] = useState('');
-  const [findProjectId, setFindProjectId] = useState('');
-  const [projectId, setProjectId] = useState('');
+  const [findProjectId, setFindProjectId] = useState(localStorage.getItem('projectId') || '');
+  const [projectId, setProjectId] = useState(localStorage.getItem('projectId') || '');
   const [project, setProject] = useState(null);
   const [newTaskName, setNewTaskName] = useState('');
   const [userId, setUserId] = useState('');
@@ -18,8 +18,11 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
     if (storedUserId) {
       setUserId(storedUserId);
     }
+    if (findProjectId) {
+      fetchProjects(findProjectId);
+    }
   }, []);
-
+  
   const handleNewTaskSubmit = async (e) => {
     e.preventDefault();
     if (!project) {
@@ -235,9 +238,9 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
       {project && (
         <div>
           {isMember ? (
-            <button className="button" onClick={() => leaveProject(project.id, userId)}>Gå ur projekt</button>
+            <button className="leave-project-button" onClick={() => leaveProject(project.id, userId)}>Gå ur projekt</button>
           ) : (
-            <button className="button" onClick={() => joinProject(project.id, userId)}>Gå med i projekt</button>
+            <button className="join-project-button" onClick={() => joinProject(project.id, userId)}>Gå med i projekt</button>
           )}
           <h3>Projekt Detaljer</h3>
           <p>ID: {project.id}</p>
@@ -256,7 +259,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
           )}
 
           <h4>Issues:</h4>
-          {project.tasks && project.tasks.length > 0 ? (
+          {isMember && project.tasks && project.tasks.length > 0 ? (
               project.tasks.map((task, index) => (
                 <li key={index}>
                   {task.name}
@@ -274,22 +277,23 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
                       {[...Array(16).keys()].map((i) => (
                         <option key={i + 1} value={i + 1}>{i + 1}</option>
                       ))}
+                     
                     </select>
-                    <button type="submit">Uppskatta tid</button>
-                    {!task.timerRunning ? (
+                     <button type="submit">Uppskatta tid</button>
+                   
+                  </form>
+                   {!task.timerRunning ? (
                       <button className="startTimerButton" onClick={() => handleTimer(task.id)}>Starta timer</button>
                     ) : (
                       <button className="stopTimerButton" onClick={() => handleTimer(task.id)}>Stoppa timer</button>
                     )}
-                    
-                    
-                  </form>
-                  
                 </li>
               ))
             ) : (
               <li>Inga issues</li>
             )}
+         
+         
           <h4>Användare:</h4>
           <ul>
             {project.users && project.users.length > 0 ? (
@@ -298,7 +302,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
               <li>Inga användare</li>
             )}
           </ul>
-          <button onClick={() => goToTimeEstimationsPage(project.id)}>Visa tidsuppskattningar</button>
+          <button className='create-project-button' onClick={() => goToTimeEstimationsPage(project.id)}>Visa tidsuppskattningar</button>
         </div>
       )}
     </div>

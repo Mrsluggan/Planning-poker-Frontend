@@ -13,7 +13,7 @@ function App() {
   const [showRegister, setShowRegister] = useState(false);
   const [username, setUsername] = useState('');
   const [userId, setUserId] = useState('');
-  const [projectId, setProjectId] = useState(null); 
+  const [projectId, setProjectId] = useState(localStorage.getItem('projectId') || null); 
 
   const handleLogin = (user) => {
     setLoggedIn(true);
@@ -32,6 +32,7 @@ function App() {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('username');
     localStorage.removeItem('userId');
+    localStorage.removeItem('projectId');
     goToHome();
   };
 
@@ -56,16 +57,20 @@ function App() {
     setShowRegister(false);
     setShowProjects(false);
     setProjectId(null); 
+    localStorage.removeItem('projectId');
   };
 
   const goToProjectsPage = () => {
     setShowProjects(true);
     setShowLogin(false);
     setShowRegister(false);
+    setProjectId(null);
   };
 
   const goToTimeEstimationsPage = (projectId) => {
     setProjectId(projectId); 
+    localStorage.setItem('projectId', projectId);
+    setShowProjects(false);
   };
 
   useEffect(() => {
@@ -87,8 +92,7 @@ function App() {
         )
       ) : (
         projectId ? (
-          <TimeEstimationsPage projectId={projectId} handleBack={goToProjectsPage} />
-
+          <TimeEstimationsPage projectId={projectId} goToProjectsPage={goToProjectsPage} />
         ) : (
           <ProjectsPage goToProjectsPage={goToProjectsPage} goToTimeEstimationsPage={goToTimeEstimationsPage} handleLogout={handleLogout} />
         )
@@ -100,5 +104,3 @@ function App() {
 }
 
 export default App;
-
-
