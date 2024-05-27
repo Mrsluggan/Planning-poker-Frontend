@@ -213,6 +213,26 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
     };
   }
 
+  const removeTask = async (taskId) => {
+    try {
+      const response = await fetch(`http://localhost:8080/removeTask/${taskId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        alert('Uppgift borttagen');
+        await fetchProjects(project.id);
+      } else {
+        console.log('Kunde inte ta bort uppgift');
+      }
+    } catch (error) {
+      console.error('Fel vid borttagning av uppgift', error);
+    }
+  };
+
   return (
      <>
     <div className="top-left-box">
@@ -262,7 +282,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
                         <ul style={{ listStyleType: "none" }}>
                           {project.tasks.map((task, index) => (
                             <li key={index} style={{ marginBottom: "1rem" }}>
-                              <div style={{ marginBottom: "0.5rem", fontWeight: "bold" }}>{task.name}</div>
+                              <div style={{ marginBottom: "0.5rem", fontWeight: "bold" }}>{task.name}<button className="remove-task-button" onClick={() => removeTask(task.id)}>[x]</button></div>
                               <form
                                 onSubmit={(e) => {
                                   e.preventDefault();
@@ -299,6 +319,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
                               >
                                 {task.timerRunning ? "Stoppa timer" : "Starta timer"}
                               </button>
+
                             </li>
                           ))}
                         </ul>

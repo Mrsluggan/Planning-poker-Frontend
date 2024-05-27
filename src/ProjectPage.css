@@ -82,6 +82,12 @@ body {
     color: #1453b8;
 }
 
+.remove-task-button {
+    background-color: #ff0000;
+    padding: 6px;
+    margin-left: 4px;
+}
+
 @keyframes rotating {
     from {
         transform: rotate(0deg);
