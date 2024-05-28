@@ -32,6 +32,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
   }, [project, userId]);
 
   useEffect(() => {
+    fetchProjects();
     const interval = setInterval(() => {
       fetchProjects(projectId);
     }, 60000);
