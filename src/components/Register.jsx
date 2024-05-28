@@ -24,7 +24,6 @@ function RegisterForm({ handleRegistration }) {
       const message = await response.text();
       setPopupMessage(message);
       setShowPopup(true);
-
       if (response.ok && message.includes("Registrering lyckades")) {
         handleRegistration();
       }
