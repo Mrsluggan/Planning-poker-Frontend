@@ -12,6 +12,18 @@ function RegisterForm({ handleRegistration }) {
 
   const handleSubmit = async (e) => { 
     e.preventDefault();
+    if (!username.trim() || !password.trim()) {
+      setPopupMessage("Användarnamn och lösenord får inte vara tomma");
+      setShowPopup(true);
+      return;
+    }
+
+    if (username.includes(" ") || password.includes(" ")) {
+      setPopupMessage("Användarnamn och lösenord får inte innehålla mellanslag");
+      setShowPopup(true);
+      return;
+    }
+    
     try { 
       const response = await fetch('http://localhost:8080/register', {
         method: 'POST',
@@ -20,7 +32,6 @@ function RegisterForm({ handleRegistration }) {
         },
         body: JSON.stringify({ username, password })
       });
-
       const message = await response.text();
       setPopupMessage(message);
       setShowPopup(true);
