@@ -98,8 +98,6 @@ function App() {
           <ProjectsPage goToProjectsPage={goToProjectsPage} goToTimeEstimationsPage={goToTimeEstimationsPage} handleLogout={handleLogout} />
         )
       )}
-
-    
     </div>
   );
 }

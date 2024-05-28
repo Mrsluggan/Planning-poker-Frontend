@@ -18,11 +18,9 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
     if (storedUserId) {
       setUserId(storedUserId);
       fetchProjectsById(storedUserId);
-
     }
     if (findProjectId) {
       fetchProjects(findProjectId);
-
     }
   }, []);
 
@@ -32,6 +30,14 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
       setIsMember(userIsMember);
     }
   }, [project, userId]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchProjects(projectId);
+    }, 60000);
+  
+    return () => clearInterval(interval);
+  }, [projectId]);
 
   const handleNewTaskSubmit = async (e) => {
     e.preventDefault();
@@ -48,8 +54,6 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
         body: JSON.stringify({ name: newTaskName }),
       });
       if (response.ok) {
-        const data = await response.json();
-        alert(`Ny uppgift lades till: ${data.name}`);
         await fetchProjects(project.id);
         setNewTaskName('');
       } else {
@@ -72,7 +76,6 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
       if (response.ok) {
         const data = await response.json();
         setProjectId(data.id);
-        alert(`Skapade projektet: ${data.projectName}`);
         await joinProject(data.id, userId);
         setNewProjectName('');
       } else {
@@ -98,12 +101,13 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
         const userIsMember = data.users.some(user => user.id === userId);
         setIsMember(userIsMember);
       } else {
-        console.log('Kunde inte hämta projekt');
+        alert('ProjektID finns ej.');
       }
     } catch (error) {
       console.error('Fel vid fetch av projekt', error);
     }
   };
+
   const fetchProjectsById = async (userId) => {
     try {
       const response = await fetch(`https://squid-app-oddmp.ondigitalocean.app/projects/${userId}/projects`, {
@@ -114,7 +118,6 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         setJoinedProjects(data)
       } else {
         console.log('Kunde inte hämta projekt');
@@ -134,8 +137,6 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        alert(`Du gick med i projektet: ${data.projectName}`);
         setIsMember(true);
         await fetchProjects(projectId);
       } else {
@@ -156,8 +157,6 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        alert(`Du lämnade projektet: ${data.projectName}`);
         setIsMember(false);
         await fetchProjects(projectId);
       } else {
@@ -208,7 +207,6 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
       },
     });
     if (response.ok) {
-      console.log(taskId, 'timerfunktion');
       await fetchProjects(project.id);
     };
   }
@@ -221,9 +219,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
           'Content-Type': 'application/json',
         },
       });
-
       if (response.ok) {
-        alert('Uppgift borttagen');
         await fetchProjects(project.id);
       } else {
         console.log('Kunde inte ta bort uppgift');
@@ -238,12 +234,10 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
     <div className="top-left-box">
     <h3>Användare: {username}</h3>
     <button className="logout-button" onClick={handleLogout}>Logga ut</button>
-  </div>
-   
+  </div> 
       <div>
         {project
           ? <div><div style={{ backgroundColor: "white", padding: "10px", color: "black", width: "100%", height: "100%" }}>
-
             {project && (
               <>
                 <div style={{ color: "black" }}>
@@ -367,8 +361,7 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
               padding: "20px"
             }}>
 
-              <div className="form-section">
-                
+              <div className="form-section">            
                 <h2>Skapa projekt</h2>
                 <form
                   onSubmit={(e) => {
@@ -410,8 +403,6 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
                 </form>
               </div>
 
-
-
               <div style={{ gridColumn: "1 / 3", gridRow: "2 / 3" }}>
                 <h2>Anslutna projekt</h2>
                 {joinedProjects.map((project) => (
@@ -426,16 +417,11 @@ function ProjectPage({ handleLogout, goToTimeEstimationsPage }) {
                   </div>
                 ))}
               </div>
-
             </div>
           </div>
         }
       </div>
-
-
-
     </>
   );
-
 }
 export default ProjectPage;

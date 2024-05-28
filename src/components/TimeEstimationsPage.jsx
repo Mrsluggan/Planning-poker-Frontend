@@ -4,10 +4,15 @@ function TimeEstimationsPage({ projectId, goToProjectsPage }) {
   const [usernames, setUsernames] = useState({});
 
   useEffect(() => {
-    fetchProject(projectId);
+    fetchProjects(projectId);
+    const intervalId = setInterval(() => {
+      fetchProjects(projectId);
+    }, 60000); 
+
+    return () => clearInterval(intervalId); 
   }, [projectId]);
 
-  const fetchProject = async (id) => {
+  const fetchProjects = async (id) => {
     try {
       const response = await fetch(`https://squid-app-oddmp.ondigitalocean.app/projects/${id}`, {
         method: 'GET',
@@ -28,7 +33,6 @@ function TimeEstimationsPage({ projectId, goToProjectsPage }) {
   };
 
   const handleBack = () => {
-    console.log("Back button clicked");
     goToProjectsPage();
   };
 
@@ -51,17 +55,9 @@ function TimeEstimationsPage({ projectId, goToProjectsPage }) {
   const formatTime = (minutes) => {
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
-    
-    if (hours === 0 && remainingMinutes === 0) {
-      return '0 timmar';
-    } else if (hours === 0) {
-      return `0 timmar ${remainingMinutes} minuter`;
-    } else if (remainingMinutes === 0) {
-      return `${hours} timmar`;
-    } else {
-      return `${hours} timmar ${remainingMinutes} minuter`;
-    }
+    return `${hours} timmar ${remainingMinutes} minuter`;
   };
+  
   return (
     <div className="time-estimations-page">
       <button className="button" onClick={handleBack}>Tillbaka</button>
